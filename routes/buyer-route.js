@@ -1,5 +1,5 @@
 const express = require("express");
-const econsole = require("../utils/econsole-log")
+const Econsole = require("../utils/Econsole-log")
 const {
   buyerSignUp,
   buyerSignIn,
@@ -15,7 +15,7 @@ const {
 /*   completeProfile,
   uploadBuyersCertificate,
   certFormatter, */
-} = require("../controllers/buyer-controllers");
+} = require("../controllers/buyer-controller");
 
 const router = express.Router();
 

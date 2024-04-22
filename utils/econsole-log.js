@@ -1,4 +1,4 @@
-class econsole{
+class Econsole{
 
     constructor(filename,classname,methodname){
         this.filename=filename;
@@ -7,7 +7,7 @@ class econsole{
     }
      log(...message){
         const [flag,...rest]=message
-        console.log(flag,this.filename+":"+this.classname+":"+this.methodname+":"+rest);
+        console.log(flag,"[",this.filename,":",this.classname,":",this.methodname,":",rest,"]");
      }
 }
-module.exports=econsole;
+module.exports=Econsole;

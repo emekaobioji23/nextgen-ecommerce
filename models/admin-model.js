@@ -3,7 +3,7 @@ const { default: mongoose } = require("mongoose");
 const crypto = require("crypto");
 const bcrypt = require("bcryptjs");
 const PropsCommonToAllUsers = require("../utils/props-common-to-all-users");
-const econsole = require("../utils/econsole-log")
+const Econsole = require("../utils/Econsole-log")
 
 const adminSchema = new mongoose.Schema(
   { ...PropsCommonToAllUsers },
@@ -18,7 +18,7 @@ const adminSchema = new mongoose.Schema(
 );
 
 adminSchema.pre('save', async function (next) {
-  const myconsole = new econsole("admin-model", "adminSchema.pre", "")
+  const myconsole = new Econsole("admin-model", "adminSchema.pre", "")
   try {
     
     myconsole.log("entry")
@@ -34,7 +34,7 @@ adminSchema.pre('save', async function (next) {
   } catch (error) { myconsole.log(error.message)}
 });
 adminSchema.methods.createPasswordResetToken=function (otp) {
-  const myconsole = new econsole("methods-common-to-all-users.js","exports.createPasswordResetToken","")
+  const myconsole = new Econsole("methods-common-to-all-users.js","exports.createPasswordResetToken","")
   myconsole.log("entry")
   //const resetToken = crypto.randomBytes(32).toString("hex");
   const resetToken = otp;

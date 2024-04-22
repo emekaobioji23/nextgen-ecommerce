@@ -5,7 +5,7 @@ const crypto = require("crypto");
 const catchAsync = require("../utils/catch-async");
 const ErrorObject = require("../utils/error");
 const sendEmail = require("../utils/email");
-const econsole = require("../utils/econsole-log");
+const Econsole = require("../utils/Econsole-log");
 
 const { JWT_COOKIE_EXPIRES_IN, JWT_EXPIRES_IN, JWT_SECRET, NODE_ENV } =
   process.env;
@@ -20,7 +20,7 @@ const { JWT_COOKIE_EXPIRES_IN, JWT_EXPIRES_IN, JWT_SECRET, NODE_ENV } =
     return number
   }
 const signToken = (id) => {
-  const myconsole = new econsole("generic-controllers.js", "signToken", "")
+  const myconsole = new Econsole("generic-controller.js", "signToken", "")
   myconsole.log("entry")
   console.log(JWT_SECRET, { expiresIn: JWT_EXPIRES_IN, })
   return jwt.sign({ id }, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN, });
@@ -28,7 +28,7 @@ const signToken = (id) => {
 
 const createAndSendToken = catchAsync(async (user, statusCode, res) => {
   //const token = await signToken(user._id);
-  const myconsole = new econsole("generic-controllers.js", "createAndSendToken", "")
+  const myconsole = new Econsole("generic-controller.js", "createAndSendToken", "")
   myconsole.log("entry")
   const token = await signToken(user.id);
   const cookieOptions = {
@@ -36,7 +36,7 @@ const createAndSendToken = catchAsync(async (user, statusCode, res) => {
     httpOnly: true,
   };
   if (NODE_ENV === "production") cookieOptions.secure = true;
-  res.cookie("jwt", token, cookieOptions);
+  res.cookie(user.role+"_jwt", token, cookieOptions);//to distinguish sources of token
 
   const hashToken = crypto
       .createHash("sha256")
@@ -55,7 +55,7 @@ const createAndSendToken = catchAsync(async (user, statusCode, res) => {
 exports.getAll = (Model) =>
   catchAsync(async (req, res) => {
     //let filter = req.params.tourId ? { tourRef: req.params.tourId } : {};
-    const myconsole = new econsole("generic-controllers.js", "getAll", "")
+    const myconsole = new Econsole("generic-controller.js", "getAll", "")
     myconsole.log("entry")
     let filter = {};
     const features = new QueryMethod(Model.find(filter), req.query)
@@ -72,7 +72,7 @@ exports.getAll = (Model) =>
 
 exports.signUp = (Model) =>
   catchAsync(async (req, res, next) => {
-    const myconsole = new econsole("generic-controllers.js", "signUp", "")
+    const myconsole = new Econsole("generic-controller.js", "signUp", "")
     myconsole.log("entry")
     const { username, password, passwordConfirm, email, phoneNumber, address, role,photo } = req.body;
     console.log(username, password, passwordConfirm, email, phoneNumber, address, role,photo)
@@ -82,7 +82,7 @@ exports.signUp = (Model) =>
   });
 exports.getOne = (Model) =>
   catchAsync(async (req, res, next) => {
-    const myconsole = new econsole("generic-controllers.js", "getOne", "")
+    const myconsole = new Econsole("generic-controller.js", "getOne", "")
     myconsole.log("entry")
     const doc = await Model.findById(req.params.id);
 
@@ -98,7 +98,7 @@ exports.getOne = (Model) =>
   });
   exports.deleteOne = (Model) =>
   catchAsync(async (req, res, next) => {
-    const myconsole = new econsole("generic-controllers.js", "deleteOne", "")
+    const myconsole = new Econsole("generic-controller.js", "deleteOne", "")
     myconsole.log("entry")
     const doc = await Model.findByIdAndDelete(req.params.id, {
       strict: true,
@@ -113,7 +113,7 @@ exports.getOne = (Model) =>
   });
 exports.signIn = (Model) =>
   catchAsync(async (req, res, next) => {
-    const myconsole = new econsole("generic-controllers.js", "signIn", "")
+    const myconsole = new Econsole("generic-controller.js", "signIn", "")
     myconsole.log("entry")
     const { email, password } = req.body;
     if (!email || !password) {
@@ -137,7 +137,7 @@ exports.signIn = (Model) =>
 
 exports.updateOne = (Model) =>
   catchAsync(async (req, res, next) => {
-    const myconsole = new econsole("generic-controllers.js", "updateOne", "")
+    const myconsole = new Econsole("generic-controller.js", "updateOne", "")
     myconsole.log("entry")
     if (req.body.password) {
       return next(new ErrorObject("You can't update password here", 400));
@@ -161,7 +161,7 @@ exports.updateOne = (Model) =>
 
 exports.createOne = (Model) =>
   catchAsync(async (req, res, next) => {
-    const myconsole = new econsole("generic-controllers.js", "createOne", "")
+    const myconsole = new Econsole("generic-controller.js", "createOne", "")
     myconsole.log("entry")
     const doc = await Model.create(req.body);
 
@@ -177,7 +177,7 @@ exports.createOne = (Model) =>
 // Authentication
 exports.protect = (Model) =>
   catchAsync(async (req, res, next) => {
-    const myconsole = new econsole("generic-controllers.js", "protect", "")
+    const myconsole = new Econsole("generic-controller.js", "protect", "")
     myconsole.log("entry")
     let token;
     if (
@@ -204,7 +204,7 @@ exports.protect = (Model) =>
   });
   exports.sameUser = (Model) =>
   catchAsync(async (req, res, next) => {
-    const myconsole = new econsole("generic-controllers.js", "sameUser", "")
+    const myconsole = new Econsole("generic-controller.js", "sameUser", "")
     myconsole.log("entry")
     if (req.user.id !== req.params.id) {
       return next(
@@ -218,7 +218,7 @@ exports.protect = (Model) =>
 // Authorization
 exports.restrictTo = (...roles) => {
   return (req, res, next) => {
-    const myconsole = new econsole("generic-controllers.js", "restrictTo", "")
+    const myconsole = new Econsole("generic-controller.js", "restrictTo", "")
     myconsole.log("entry")
     if (!roles.includes(req.user.role)) {
       return next(
@@ -232,7 +232,7 @@ exports.restrictTo = (...roles) => {
 
 exports.forgotPassword = (Model) =>
   catchAsync(async (req, res, next) => {
-    const myconsole = new econsole("generic-controllers.js", "forgotPassword", "")
+    const myconsole = new Econsole("generic-controller.js", "forgotPassword", "")
     myconsole.log("entry")
     // 1. Get User based on email provided
     const user = await Model.findOne({ email: req.body.email });
@@ -247,7 +247,7 @@ exports.forgotPassword = (Model) =>
     await user.save({ validateBeforeSave: false });
 
     // 3. Send token to the email addess
-    const resetUrl = `${req.protocol}://${req.get("host")}/api/v1/${user.role}s/reset-password/${resetToken}`;
+    const resetUrl = /*`${req.protocol}://${req.get("host")}/api/v1/${user.role}s/reset-password/${resetToken}`*/"https://www.jumia.com.ng/oraimo-20000mah-power-charging-bank-fast-charging-opb-p208dn-127139672.html";
     console.log(resetUrl)
 
     const message = `To reset your password click on the link below to submit your new password: ${resetUrl}`;
@@ -275,7 +275,7 @@ exports.forgotPassword = (Model) =>
 
 exports.resetPassword = (Model) =>
   catchAsync(async (req, res, next) => {
-    const myconsole = new econsole("generic-controllers.js", "resetPassword", "")
+    const myconsole = new Econsole("generic-controller.js", "resetPassword", "")
     myconsole.log("entry")
     const hashToken = crypto
       .createHash("sha256")
@@ -308,7 +308,7 @@ exports.resetPassword = (Model) =>
 
 exports.updatePassword = (Model) =>
   catchAsync(async (req, res, next) => {
-    const myconsole = new econsole("generic-controllers.js", "updatePassword", "")
+    const myconsole = new Econsole("generic-controller.js", "updatePassword", "")
     myconsole.log("entry")
     const user = await Model.findById(req.user.id).select("+password");
     const { newPassword, newPasswordConfirm } = req.body;

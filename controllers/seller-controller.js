@@ -5,7 +5,7 @@ const catchAsync = require("../utils/catch-async");
 const cloudUpload = require("../utils/cloudinary");
 const sendEmail = require("../utils/email");
 const ErrorObject = require("../utils/error");
-const econsole = require("../utils/econsole-log")
+const Econsole = require("../utils/Econsole-log")
 const {
   signUp,
   signIn,
@@ -17,7 +17,7 @@ const {
   forgotPassword,
   resetPassword,
   updatePassword,
-} = require("./generic-controllers");
+} = require("./generic-controller");
 
 
 /* const { ADMIN_EMAIL } = process.env;*/
@@ -34,11 +34,9 @@ exports.sellerForgotPassword = forgotPassword(Seller);
 exports.resetSellerPassword = resetPassword(Seller);
 exports.updateSellerPassword = updatePassword(Seller);
 
- const multerStorage = multer.diskStorage({});
-
-
+const multerStorage = multer.diskStorage({});
 const multerFilter = (req, file, cb) => {
-  const myconsole = new econsole("seller-controllers.js", "multerFilter", "")
+  const myconsole = new Econsole("seller-controller.js", "multerFilter", "")
   myconsole.log("entry")
   if (file.mimetype.startsWith("image")) {
     cb(null, true);
@@ -47,9 +45,8 @@ const multerFilter = (req, file, cb) => {
   }
   myconsole.log("exits")
 };
-
 const sellerPhoto = multer({
-  limits: { fileSize: 1024 * 1024 * 5 }, // 5 MB limit
+  limits: { fileSize: 1024 * 1024 * 2 }, // 2 MB limit
   storage: multerStorage,
   fileFilter: multerFilter,
 });
@@ -57,7 +54,7 @@ const sellerPhoto = multer({
 exports.uploadSellerPhoto = sellerPhoto.single("photo");
 
 exports.photoFormatter = catchAsync(async (req, res, next) => {
-  const myconsole = new econsole("seller-controllers.js", "photoFormatter", "")
+  const myconsole = new Econsole("seller-controller.js", "photoFormatter", "")
   myconsole.log("entry")
   if (req.file) {
     /* let id = req.params.id;
@@ -79,7 +76,7 @@ exports.photoFormatter = catchAsync(async (req, res, next) => {
 });
 
 exports.rebuildSellerFormDataPropsIntoObject = catchAsync(async (req, res, next) => {
-  const myconsole = new econsole("seller-controllers.js", "rebuildSellerFormDataPropsIntoObject", "")
+  const myconsole = new Econsole("seller-controller.js", "rebuildSellerFormDataPropsIntoObject", "")
   myconsole.log("entry")
   req.body.address= {"street":req.body.street,"city":req.body.city,"state":req.body.state,"country":req.body.country}
   myconsole.log("exits")

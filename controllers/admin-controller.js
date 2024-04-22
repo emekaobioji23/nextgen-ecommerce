@@ -13,7 +13,7 @@ const {
   updatePassword,
   protect,
   sameUser,
-} = require("./generic-controllers");
+} = require("./generic-controller");
 
 exports.adminSignUp = signUp(Admin);
 

@@ -4,10 +4,11 @@ const morgan = require("morgan");
 const fs = require("fs");
 const path = require("path");
 const cors = require("cors");
-const buyerRoutes = require("./routes/buyer-routes");
-const sellerRoutes = require("./routes/seller-routes");
-const adminRoutes = require("./routes/admin-routes");
-const ErrorHandler = require("./controllers/error-controllers");
+const buyerRoute = require("./routes/buyer-route");
+const sellerRoute = require("./routes/seller-route");
+const adminRoute = require("./routes/admin-route");
+const productRoute = require("./routes/product-route");
+const ErrorHandler = require("./controllers/error-controller");
 const ErrorObject = require("./utils/error");
 const { PORT } = process.env;
 
@@ -34,11 +35,12 @@ app.use(express.static(`${__dirname}/public`));
 // setup the logger
 app.use(morgan("combined", { stream: accessLogStream }));
 
-// Routes
+// Route
 
-app.use("/api/v1/buyers", buyerRoutes);
-app.use("/api/v1/sellers", sellerRoutes);
-app.use("/api/v1/admins", adminRoutes);
+app.use("/api/v1/buyers", buyerRoute);
+app.use("/api/v1/sellers", sellerRoute);
+app.use("/api/v1/admins", adminRoute);
+app.use("/api/v1/products", productRoute);
 
 app.all("*", (req, res, next) => {
   const err = new ErrorObject(

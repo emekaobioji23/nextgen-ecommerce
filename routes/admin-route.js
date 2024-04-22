@@ -12,7 +12,7 @@ const {
   updateAdminPassword,
   protectAdmin,
   sameAdmin,
-} = require("../controllers/admin-controllers");
+} = require("../controllers/admin-controller");
 
 const router = express.Router();
 

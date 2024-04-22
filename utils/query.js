@@ -4,7 +4,7 @@ of format sort=username,email,createdDate&...
 it can sort(), limit, paginate and filter the model.method() result because all 
 model.mehtod() results support all those 
 */
-const econsole = require("../utils/econsole-log");
+const Econsole = require("../utils/Econsole-log");
 class QueryMethod {
     constructor(query, queryString) {
         this.query = query;
@@ -12,7 +12,7 @@ class QueryMethod {
     }
 
     sort() {
-        const myconsole = new econsole("query.js", "QueryMethod", "sort()");
+        const myconsole = new Econsole("query.js", "QueryMethod", "sort()");
         myconsole.log("entry","this.queryString.sort=", this.queryString.sort);
         if (this.queryString.sort) {
             const sortBy = this.queryString.sort.split(",").join(" ");
@@ -26,7 +26,7 @@ class QueryMethod {
     }
 
     limit() {
-        const myconsole = new econsole("query.js", "QueryMethod", "limit()");
+        const myconsole = new Econsole("query.js", "QueryMethod", "limit()");
         myconsole.log("entry","this.queryString.fields=", this.queryString.fields);
         if (this.queryString.fields) {
             const requestedFields = this.queryString.fields.split(",").join(" ");
@@ -40,7 +40,7 @@ class QueryMethod {
     }
 
     paginate() {
-        const myconsole = new econsole("query.js", "QueryMethod", "paginate()");
+        const myconsole = new Econsole("query.js", "QueryMethod", "paginate()");
         myconsole.log("entry","this.queryString.page=", this.queryString.page);
         console.log("this.queryString.limit=", this.queryString.limit);
         const page = this.queryString.page * 1 || 1;
@@ -52,7 +52,7 @@ class QueryMethod {
     }
 
     filter() {
-        const myconsole = new econsole("query.js", "QueryMethod", "filter()");
+        const myconsole = new Econsole("query.js", "QueryMethod", "filter()");
         myconsole.log("entry","this.queryString", { ...this.queryString });
         const queryObj = { ...this.queryString };
         console.log("queryObj", queryObj);

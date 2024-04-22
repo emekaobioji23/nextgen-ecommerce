@@ -1,4 +1,4 @@
-const econsole = require("./econsole-log")
+const Econsole = require("./Econsole-log")
 const cloudinary = require("cloudinary");
 const { CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_SECRET } =
   process.env;
@@ -10,7 +10,7 @@ cloudinary.config({
 });
 
 const cloudUpload = async (image) => {
-  const myconsole = new econsole("cloudinary.js", "cloudUpload", "")
+  const myconsole = new Econsole("cloudinary.js", "cloudUpload", "")
   myconsole.log("entry")
   const result = await cloudinary.v2.uploader.upload(image.url, {
     public_id: image.id,

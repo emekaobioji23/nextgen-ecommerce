@@ -3,8 +3,7 @@ const { default: mongoose } = require("mongoose");
 const crypto = require("crypto");
 const bcrypt = require("bcryptjs");
 const PropsCommonToAllUsers = require("../utils/props-common-to-all-users");
-const catchAsync = require("../utils/catch-async")
-const econsole = require("../utils/econsole-log")
+const Econsole = require("../utils/Econsole-log")
 const PropsSpecificToSomeUsers=require("../utils/props-specific-to-some-users")
 
 const buyerSchema = new mongoose.Schema(
@@ -20,7 +19,7 @@ const buyerSchema = new mongoose.Schema(
 );
 
 buyerSchema.pre('save', async function (next) {
-  const myconsole = new econsole("buyer-model", "buyerSchema.pre", "")
+  const myconsole = new Econsole("buyer-model", "buyerSchema.pre", "")
   try {
     
     myconsole.log("entry")
@@ -36,7 +35,7 @@ buyerSchema.pre('save', async function (next) {
   } catch (error) { myconsole.log(error.message)}
 });
 buyerSchema.methods.createPasswordResetToken=function (otp) {
-  const myconsole = new econsole("methods-common-to-all-users.js","exports.createPasswordResetToken","")
+  const myconsole = new Econsole("methods-common-to-all-users.js","exports.createPasswordResetToken","")
   myconsole.log("entry")
   //const resetToken = crypto.randomBytes(32).toString("hex");
   const resetToken = otp;
