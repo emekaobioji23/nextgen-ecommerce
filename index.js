@@ -8,6 +8,7 @@ const buyerRoute = require("./routes/buyer-route");
 const sellerRoute = require("./routes/seller-route");
 const adminRoute = require("./routes/admin-route");
 const productRoute = require("./routes/product-route");
+const cartRoute = require("./routes/cart-route");
 const ErrorHandler = require("./controllers/error-controller");
 const ErrorObject = require("./utils/error");
 const { PORT } = process.env;
@@ -41,6 +42,7 @@ app.use("/api/v1/buyers", buyerRoute);
 app.use("/api/v1/sellers", sellerRoute);
 app.use("/api/v1/admins", adminRoute);
 app.use("/api/v1/products", productRoute);
+app.use("/api/v1/carts", cartRoute);
 
 app.all("*", (req, res, next) => {
   const err = new ErrorObject(

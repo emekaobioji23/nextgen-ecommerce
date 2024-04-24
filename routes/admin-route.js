@@ -5,6 +5,8 @@ const {
   getAllAdmin,
   getAllBuyers,
   getAllSellers,
+  getAllProducts,
+  getAllCarts,
   getAdmin,
   updateAdmin,
   adminForgotPassword,
@@ -25,6 +27,11 @@ router.get("/", protectAdmin, getAllAdmin);
 router.get("/buyers", protectAdmin, getAllBuyers);
 
 router.get("/sellers", protectAdmin, getAllSellers);
+
+router.get("/products", protectAdmin, getAllProducts);
+
+router.get("/carts", protectAdmin, getAllCarts);
+
 
 router
   .route("/:id")

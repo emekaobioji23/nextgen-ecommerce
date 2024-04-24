@@ -7,7 +7,7 @@ exports.validateProduct = catchAsync(async (req, res, next) => {
     myconsole.log("entry")
     //myconsole.log(req)
     const { name, description, richDescription, images, price, discount, rating, quantity, isAvailable } = req.body;
-    const sellerId = req.params.id;
+    const sellerId = req.user.id;
     req.body.sellerId = sellerId
     console.log(name, description, richDescription, images, price, discount, rating, quantity, isAvailable, sellerId)
     const obj = { name, description, richDescription, images, price, discount, rating, quantity, isAvailable, sellerId }

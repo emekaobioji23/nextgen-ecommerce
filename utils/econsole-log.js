@@ -9,5 +9,9 @@ class Econsole{
         const [flag,...rest]=message
         console.log(flag,"[",this.filename,":",this.classname,":",this.methodname,":",rest,"]");
      }
+     error(...message){
+        const [flag,...rest]=message
+        console.error(flag,"[",this.filename,":",this.classname,":",this.methodname,":",rest,"]");
+     }
 }
 module.exports=Econsole;

@@ -1,8 +1,4 @@
 const { default: mongoose } = require("mongoose");
-/* const crypto = require("crypto");
-const bcrypt = require("bcryptjs");
-const Econsole = require("../utils/Econsole-log")
- */
 const productSchema = new mongoose.Schema({
   name: String,//required
   description: String,//required
@@ -13,10 +9,12 @@ const productSchema = new mongoose.Schema({
   rating: Number,//validate min 0 max 5
   quantity: Number,//required
   isAvailable: Boolean,//required
-  sellerId: mongoose.Schema.Types.ObjectId//required
+  sellerId: String,//required
+  createdAt: {type:Date, default: Date.now()},
+  updatedAt: Date
 
 },{toObject: {virtuals: true,},toJSON: {virtuals: true,},});
 
 
 const Product = mongoose.model('Product', productSchema);
-module.exports = {Product}; 
+module.exports = Product; 

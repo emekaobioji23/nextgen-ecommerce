@@ -4,3 +4,5 @@ test-snippets.js
 nextgen-ecommerce.code-workspace
 access.log
 **/unused
+**/resized_images
+*.bat

@@ -69,7 +69,22 @@ exports.getAll = (Model) =>
     res.status(200).json({ status: "success", results: docs.length, data: docs, });
   });
 
-
+  exports.getAllManyToOne =(ModelForTheManyInRel,schemaIdNameForTheOneInRel)=> catchAsync(async (req, res,next) => {
+    const myconsole = new Econsole("generic-controller.js", "getAllManyToOne", "")
+    myconsole.log("entry")
+    myconsole.log("ModelForTheManyInRel=",ModelForTheManyInRel,"schemaIdNameForTheOneInRel=",schemaIdNameForTheOneInRel)
+    let filter = {schemaIdNameForTheOneInRel: req.params.id};
+    const features = new QueryMethod(ModelForTheManyInRel.find(filter), req.query)
+      .sort('-updatedAt')
+      .limit()
+      .paginate()
+      .filter();
+  
+    const docs = await features.query;
+    myconsole.log("exits")
+    res.status(200).json({ status: "success", results: docs.length, data: docs, });
+  });
+  
 exports.signUp = (Model) =>
   catchAsync(async (req, res, next) => {
     const myconsole = new Econsole("generic-controller.js", "signUp", "")
@@ -142,6 +157,7 @@ exports.updateOne = (Model) =>
     if (req.body.password) {
       return next(new ErrorObject("You can't update password here", 400));
     }
+    req.body.updatedAt = Date.now();
     const updatedData = await Model.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
@@ -163,12 +179,14 @@ exports.createOne = (Model) =>
   catchAsync(async (req, res, next) => {
     const myconsole = new Econsole("generic-controller.js", "createOne", "")
     myconsole.log("entry")
+    req.body.updatedAt=Date.now();
     const doc = await Model.create(req.body);
+    const modelName = Model.modelName
 
     res.status(201).json({
       status: "success",
       data: {
-        data: doc,
+        [modelName]: doc,
       },
     });
     myconsole.log("exits")

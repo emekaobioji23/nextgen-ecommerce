@@ -1,6 +1,8 @@
 const Admin = require("../models/admin-model");
 const Seller = require("../models/seller-model");
 const Buyer = require("../models/buyer-model");
+const Product = require("../models/product-model");
+const Cart = require("../models/cart-model");
 const {
   signUp,
   signIn,
@@ -24,6 +26,10 @@ exports.getAllAdmin = getAll(Admin);
 exports.getAllBuyers = getAll(Buyer);
 
 exports.getAllSellers = getAll(Seller);
+
+exports.getAllProducts = getAll(Product);
+
+exports.getAllCarts = getAll(Cart);
 
 exports.getAdmin = getOne(Admin);
 
