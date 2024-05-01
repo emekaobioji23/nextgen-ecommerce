@@ -66,7 +66,7 @@ exports.getAll = (Model) =>
 
     const docs = await features.query;
     myconsole.log("exits")
-    res.status(200).json({ status: "success", results: docs.length, data: docs, });
+    res.status(200).json({ status: "success", results: docs.length, [Model.modelName]: docs, });
   });
 
   exports.getAllManyToOne =(ModelForTheManyInRel,schemaIdNameForTheOneInRel)=> catchAsync(async (req, res,next) => {
@@ -82,7 +82,7 @@ exports.getAll = (Model) =>
   
     const docs = await features.query;
     myconsole.log("exits")
-    res.status(200).json({ status: "success", results: docs.length, data: docs, });
+    res.status(200).json({ status: "success", results: docs.length, [ModelForTheManyInRel.modeName]: docs, });
   });
   
 exports.signUp = (Model) =>
@@ -99,6 +99,7 @@ exports.getOne = (Model) =>
   catchAsync(async (req, res, next) => {
     const myconsole = new Econsole("generic-controller.js", "getOne", "")
     myconsole.log("entry")
+    const modelName = Model.modelName
     const doc = await Model.findById(req.params.id);
 
     if (!doc)
@@ -108,13 +109,14 @@ exports.getOne = (Model) =>
     myconsole.log("exits")
     res.status(200).json({
       status: "success",
-      data: doc,
+      [modelName]: doc,
     });
   });
   exports.deleteOne = (Model) =>
   catchAsync(async (req, res, next) => {
     const myconsole = new Econsole("generic-controller.js", "deleteOne", "")
     myconsole.log("entry")
+    const modelName = Model.modelName
     const doc = await Model.findByIdAndDelete(req.params.id, {
       strict: true,
     });
@@ -123,7 +125,7 @@ exports.getOne = (Model) =>
     myconsole.log("exits")
     res.status(204).json({
       status: "deleted",
-      data: "null",
+      [modelName]: "null",
     });
   });
 exports.signIn = (Model) =>
@@ -154,6 +156,7 @@ exports.updateOne = (Model) =>
   catchAsync(async (req, res, next) => {
     const myconsole = new Econsole("generic-controller.js", "updateOne", "")
     myconsole.log("entry")
+    const modelName = Model.modelName
     if (req.body.password) {
       return next(new ErrorObject("You can't update password here", 400));
     }
@@ -169,7 +172,7 @@ exports.updateOne = (Model) =>
     res.status(200).json({
       status: "success",
       data: {
-        data: updatedData,
+        [modelName]: updatedData,
       },
     });
     myconsole.log("exits")

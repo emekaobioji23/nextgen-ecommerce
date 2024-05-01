@@ -1,4 +1,5 @@
 const Econsole = require("../utils/Econsole-log")
+const ErrorObject = require("../utils/error")
 const catchAsync=require("../utils/catch-async")
 const Cart = require("../models/cart-model")
 const { createOne, getOne ,getAllManyToOne,updateOne, deleteOne } = require("./generic-controller");
@@ -6,7 +7,7 @@ const { createOne, getOne ,getAllManyToOne,updateOne, deleteOne } = require("./g
 exports.getCart= getOne(Cart)
 exports.getAllCartsForBuyer=getAllManyToOne(Cart,"buyerId")
 exports.setBuyerIdInReqBody=(req,res,next)=>{
-  const myconsole = new Econsole("cart-controller.js", "setProductIdInReqBody", "")
+  const myconsole = new Econsole("cart-controller.js", "setBuyerIdInReqBody", "")
   myconsole.log("entry")
   req.body.buyerId=req.params.id,
   myconsole.log("req.body.buyerId=",req.body.buyerId)
